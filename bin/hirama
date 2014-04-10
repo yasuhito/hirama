@@ -1,12 +1,14 @@
 #!/usr/bin/env ruby
+# encoding: utf-8
 
 require 'json'
 require 'open-uri'
 
 repository = ARGV[0]
+issues_uri = "https://api.github.com/repos/#{repository}/issues"
 
 puts "# #{repository} open issues"
 
-JSON.parse(URI("https://api.github.com/repos/#{repository}/issues").open.read).each do |each|
+JSON.parse(URI(issues_uri).open.read).each do |each|
   puts "##{each['number']}: #{each['title']}"
 end
