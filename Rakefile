@@ -1,3 +1,5 @@
+require 'bundler/gem_tasks'
+
 task :default => [:cucumber, :rubocop]
 
 begin
