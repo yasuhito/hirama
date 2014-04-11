@@ -1,6 +1,15 @@
 require 'bundler/gem_tasks'
 
-task :default => [:cucumber, :rubocop]
+task default: [:spec, :cucumber, :rubocop]
+
+begin
+  require 'rspec/core/rake_task'
+  RSpec::Core::RakeTask.new
+rescue
+  task :spec do
+    $stderr.puts 'RSpec is disabled'
+  end
+end
 
 begin
   require 'cucumber/rake/task'
