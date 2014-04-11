@@ -10,3 +10,9 @@ guard :rubocop do
   watch(/.+\.rb$/)
   watch(/(?:.+\/)?\.rubocop\.yml$/) { |m| File.dirname(m[0]) }
 end
+
+guard :rspec do
+  watch(%r{^spec/hirama/.+_spec\.rb$})
+  watch(%r{^lib/hirama/(.+)\.rb$}) { |m| "spec/hirama/lib/#{m[1]}_spec.rb" }
+  watch('spec/spec_helper.rb') { 'spec' }
+end
