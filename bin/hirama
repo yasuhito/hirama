@@ -17,8 +17,11 @@ version Hirama::VERSION
 desc 'List up issues'
 arg_name 'reposname'
 command :list do |c|
+  c.desc 'Specifies repository name (username/reposname)'
+  c.flag [:r, :repos]
+
   c.action do |global_options, options, args|
-    repository = args[0] || Hirama::Git.new.repository
+    repository = options[:repos] || Hirama::Git.new.repository
     puts "# #{repository} open issues"
 
     issues_uri = "https://api.github.com/repos/#{repository}/issues"
@@ -31,9 +34,13 @@ end
 desc 'Open a issue in your browser'
 arg_name 'issueno'
 command :open do |c|
+  c.desc 'Specifies repository name (username/reposname)'
+  c.flag [:r, :repos]
+
   c.action do |global_options, options, args|
     issueno = args[0]
-    system "open https://github.com/yasuhito/hirama/issues/#{issueno}"
+    repository = options[:repos] || Hirama::Git.new.repository
+    system "open https://github.com/#{repository}/issues/#{issueno}"
   end
 end
 
