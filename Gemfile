@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+gemspec
+
 gem 'rake', '~> 10.2.2'
 
 group :development do
@@ -11,6 +13,7 @@ end
 
 group :test do
   gem 'aruba', '~> 0.5.4'
+  gem 'aruba-doubles', '~> 1.2.1'
   gem 'rspec', '~> 2.14.1'
   gem 'rspec-given', '~> 3.5.4'
   gem 'rubocop', '~> 0.20.1'
