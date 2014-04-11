@@ -3,15 +3,40 @@
 
 $LOAD_PATH.unshift File.join(File.dirname(__FILE__), '..', 'lib')
 
+require 'gli'
 require 'json'
 require 'open-uri'
-require 'hirama/git'
+require 'hirama'
 
-repository = ARGV[0] || Hirama::Git.new.repository
-issues_uri = "https://api.github.com/repos/#{repository}/issues"
+include GLI::App
 
-puts "# #{repository} open issues"
+program_desc 'Command line interface for GitHub issues'
 
-JSON.parse(URI(issues_uri).open.read).each do |each|
-  puts "##{each['number']}: #{each['title']}"
+version Hirama::VERSION
+
+desc 'List up issues'
+arg_name 'reposname'
+command :list do |c|
+  c.action do |global_options, options, args|
+    repository = args[0] || Hirama::Git.new.repository
+    puts "# #{repository} open issues"
+
+    issues_uri = "https://api.github.com/repos/#{repository}/issues"
+    JSON.parse(URI(issues_uri).open.read).each do |each|
+      puts "##{each['number']}: #{each['title']}"
+    end
+  end
 end
+
+desc 'Open a issue in your browser'
+arg_name 'issueno'
+command :open do |c|
+  c.action do |global_options, options, args|
+    issueno = args[0]
+    system "open https://github.com/yasuhito/hirama/issues/#{issueno}"
+  end
+end
+
+default_command :list
+
+run ARGV.dup
