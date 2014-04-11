@@ -1,10 +1,13 @@
 #!/usr/bin/env ruby
 # encoding: utf-8
 
+$LOAD_PATH.unshift File.join(File.dirname(__FILE__), '..', 'lib')
+
 require 'json'
 require 'open-uri'
+require 'hirama/git'
 
-repository = ARGV[0]
+repository = ARGV[0] || Hirama::Git.new.repository
 issues_uri = "https://api.github.com/repos/#{repository}/issues"
 
 puts "# #{repository} open issues"
